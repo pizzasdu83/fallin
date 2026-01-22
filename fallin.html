@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pluie d'images</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Empêche le défilement de la page */
+			animation: arcEnCiel 10s linear infinite;
+        }
+
+        .falling-image {
+            position: absolute;
+            top: -100px; /* Commence au-dessus de l'écran */
+            pointer-events: none; /* L'image ne bloque pas les clics */
+            z-index: 1000;
+            /* Animation : nom | durée | linéaire | infini */
+            animation: fall linear forwards;
+        }
+		
+		@keyframes arcEnCiel {
+            0%   { background-color: #ff0000; } /* Rouge */
+            8%  { background-color: #ff8000; } /* Orange */
+            17%  { background-color: #ffff00; } /* Jaune */
+            25%  { background-color: #00ff00; } /* Vert */
+            33%  { background-color: #0000ff; } /* Bleu */
+            41%  { background-color: #4b0082; } /* Indigo */
+            50% { background-color: #ff0000; } /* Retour au Rouge */
+			58%  { background-color: #ff8000; } /* Orange */
+            67%  { background-color: #ffff00; } /* Jaune */
+            75%  { background-color: #00ff00; } /* Vert */
+            83%  { background-color: #0000ff; } /* Bleu */
+            92%  { background-color: #4b0082; } /* Indigo */
+            100% { background-color: #ff0000; } /* Retour au Rouge */
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) translateX(-110vh) rotate(var(--scale-y)) scaleY(-1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        function createFallingImage() {
+            const img = document.createElement('img');
+            img.src = '1.webp'; // Votre image
+            img.classList.add('falling-image');
+
+            // --- Personnalisation aléatoire ---
+            
+			const randomScale = Math.floor(Math.random() * 720) - 360;
+			img.style.setProperty('--scale-y', randomScale + "deg");
+			
+            // Position horizontale aléatoire (0 à 100% de la largeur)
+            img.style.left = Math.random() * 300 + "vh";
+            
+            // Taille aléatoire (entre 30px et 80px)
+            const size = Math.random() * (200 - 30) + 30;
+            img.style.width = size + "px";
+            
+            // Vitesse de chute aléatoire (entre 3s et 8s)
+            const duration = Math.random() * (3 - 1) + 1;
+            img.style.animationDuration = duration + "s";
+            
+            // Opacité aléatoire pour donner de la profondeur
+            img.style.opacity = Math.random() * (1 - 0.4) + 0.4;
+
+            document.body.appendChild(img);
+
+            // Supprimer l'élément après l'animation pour ne pas ralentir le navigateur
+            setTimeout(() => {
+                img.remove();
+            }, duration * 1000);
+        }
+
+        // Créer une nouvelle image toutes les 200 millisecondes
+        setInterval(createFallingImage, 20);
+    </script>
+</body>
+</html>
